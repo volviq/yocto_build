@@ -11,6 +11,7 @@ ARG TARGETPLATFORM
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        dumb-init \
         gawk \
         wget \
         git-core \
