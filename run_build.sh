@@ -1,3 +1,4 @@
+#!/bin/bash
 git clone git://git.yoctoproject.org/poky
 
 cd poky

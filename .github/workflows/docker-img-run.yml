@@ -1,4 +1,4 @@
-name: Docker Image CI Yocto
+name: Docker based yocto build
 
 on:
   push:
@@ -14,9 +14,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Set timestamp
+      run: echo "TIMESTAMP=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag yocto-image:$(date +%s)
-    
+      run: docker build . --file Dockerfile --tag yocto-image:$TIMESTAMP
+
     - name: Run script inside container
-      run: docker run --rm yocto-image:$(date +%s) ./run_build.sh
+      run: docker run --rm yocto-image:$TIMESTAMP /home/yoctouser/run_build.sh
         # Replace ./my-script.sh with your script path inside the container

@@ -62,10 +62,18 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive dpkg-reconfigure dash
 
 COPY build-install-dumb-init.sh /
+
 RUN  bash /build-install-dumb-init.sh && \
      rm /build-install-dumb-init.sh && \
      apt-get clean
 
+COPY run_build.sh /home/yoctouser
+
+RUN chmod +x /home/yoctouser/run_build.sh
+
 USER yoctouser
 WORKDIR /home/yoctouser
+
+
+CMD /bin/ls
 CMD /bin/bash

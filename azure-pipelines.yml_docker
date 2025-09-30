@@ -1,0 +1,32 @@
+# azure-pipelines.yml
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  imageName: 'my-custom-image'
+  containerName: 'build-container'
+
+steps:
+  # 1. Build the Docker image
+  - task: Docker@2
+    displayName: 'Build Docker image'
+    inputs:
+      command: 'build'
+      Dockerfile: '**/Dockerfile'
+      tags: |
+        $(imageName):$(Build.BuildId)
+
+  # 2. Run the Docker container & execute script
+  - script: |
+      echo "Running container and executing build script..."
+      docker run --rm \
+        -v $(System.DefaultWorkingDirectory):/workspace \
+        -w /workspace \
+        $(imageName):$(Build.BuildId) \
+        bash run_build.sh
+    displayName: 'Run build script inside container'
