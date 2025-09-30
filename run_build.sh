@@ -11,3 +11,6 @@ source oe-init-build-env
 
 bitbake core-image-full-cmdline
 echo "Done"
+
+du -hs * | sort -h
+df -h
